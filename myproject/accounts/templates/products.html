@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f7f2ec">
+    <meta name="description" content="لیست محصولات فروشگاه">
+
+    <title>محصولات | فروشگاه من</title>
+
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+
+    <style>
+        /* ============================================
+           1) RESET و پایه‌ها (مشترک با صفحه اصلی)
+           ============================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: Tahoma, "Segoe UI", sans-serif;
+            background-color: #f7f2ec;
+            color: #222;
+            line-height: 1.7;
+        }
+
+        :root {
+            --primary: #0e7490;
+            --primary-light: #22b8cf;
+            --bg-card: #ffffff;
+            --text-muted: #666;
+            --radius: 10px;
+        }
+
+        a:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+        /* ============================================
+           2) هدر
+           ============================================ */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .head_home {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 16px;
+        }
+
+        .logo { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        .list_head { display: flex; gap: 8px; }
+
+        .list_head a {
+            text-decoration: none;
+            color: #222;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: background-color .2s, color .2s;
+        }
+
+        .list_head a:hover { background-color: var(--primary-light); color: #fff; }
+
+        /* بهینه: لینک فعال صفحه فعلی را مشخص می‌کنیم */
+        .list_head a.active {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        /* ============================================
+           3) نوار عنوان صفحه
+           ============================================ */
+        .page-title {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #e0f2fe, #f7f2ec);
+        }
+
+        .page-title h1 { font-size: 1.6rem; color: #0b3b4a; margin-bottom: 6px; }
+        .page-title p  { color: var(--text-muted); font-size: .95rem; }
+
+        /* ============================================
+           4) شبکه محصولات
+           ============================================ */
+        .products {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .product-list {
+            display: grid;
+            /* بهینه: auto-fit برای ریسپانسیو خودکار */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .1);
+        }
+
+        .product-card .thumb {
+            aspect-ratio: 1 / 1;
+            background-color: #eef2f5;
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            /* برای وقتی بعداً عکس واقعی گذاشتی، این دو خط کمک می‌کنه */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #b0bec5;
+        }
+
+        .product-card h3 { font-size: 1rem; margin-bottom: 6px; }
+
+        .product-card .price {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        /* بهینه: برچسب تخفیف بدون جاوااسکریپت */
+        .badge {
+            display: inline-block;
+            background-color: #dc2626;
+            color: #fff;
+            font-size: .75rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+        }
+
+        .product-card a {
+            display: inline-block;
+            font-size: .9rem;
+            color: var(--primary);
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            padding: 6px 14px;
+            border-radius: var(--radius);
+            transition: background-color .2s, color .2s;
+        }
+
+        .product-card a:hover { background-color: var(--primary); color: #fff; }
+
+        /* ============================================
+           5) فوتر
+           ============================================ */
+        footer {
+            background-color: #0b3b4a;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: .9rem;
+        }
+
+        /* ============================================
+           6) ریسپانسیو
+           ============================================ */
+        @media (max-width: 600px) {
+            .head_home { flex-direction: column; gap: 10px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== هدر ====== -->
+    <header>
+        <nav class="head_home">
+            <span class="logo">🛍️ فروشگاه من</span>
+            <div class="list_head">
+                <a href="/">خانه</a>
+                <!-- کلاس active مشخص می‌کند کاربر در این صفحه است -->
+                <a href="/products" class="active">محصولات</a>
+                <a href="/register">ثبت‌نام</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ====== عنوان صفحه ====== -->
+    <section class="page-title">
+        <h1>همه محصولات</h1>
+        <p>از بین محصولات متنوع ما انتخاب کن</p>
+    </section>
+
+    <!-- ====== شبکه محصولات ====== -->
+    <section class="products">
+        <div class="product-list">
+
+            <article class="product-card">
+                <span class="badge">۲۰٪ تخفیف</span>
+                <div class="thumb" aria-hidden="true">🎧</div>
+                <h3>هدفون بی‌سیم</h3>
+                <p class="price">۹۶۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <div class="thumb" aria-hidden="true">⌚</div>
+                <h3>ساعت هوشمند</h3>
+                <p class="price">۲٫۵۰۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <span class="badge">جدید</span>
+                <div class="thumb" aria-hidden="true">👜</div>
+                <h3>کیف چرمی</h3>
+                <p class="price">۸۵۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <div class="thumb" aria-hidden="true">🕶️</div>
+                <h3>عینک آفتابی</h3>
+                <p class="price">۶۴۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <div class="thumb" aria-hidden="true">📱</div>
+                <h3>گوشی هوشمند</h3>
+                <p class="price">۱۲٫۰۰۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <span class="badge">۱۵٪ تخفیف</span>
+                <div class="thumb" aria-hidden="true">💻</div>
+                <h3>لپ‌تاپ</h3>
+                <p class="price">۲۵٫۰۰۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <div class="thumb" aria-hidden="true">👟</div>
+                <h3>کفش ورزشی</h3>
+                <p class="price">۱٫۲۰۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+            <article class="product-card">
+                <span class="badge">جدید</span>
+                <div class="thumb" aria-hidden="true">🎮</div>
+                <h3>دسته بازی</h3>
+                <p class="price">۱٫۸۰۰٫۰۰۰ تومان</p>
+                <a href="#">مشاهده جزئیات</a>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- ====== فوتر ====== -->
+    <footer>
+        <p>© ۱۴۰۴ - تمام حقوق محفوظ است | فروشگاه من</p>
+    </footer>
+
+</body>
+</html>

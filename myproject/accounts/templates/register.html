@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f7f2ec">
+    <meta name="description" content="ورود و ثبت‌نام با شماره موبایل">
+
+    <title>ورود | ثبت‌نام | فروشگاه من</title>
+
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+
+    <style>
+        /* ============================================
+           1) RESET و پایه‌ها
+           ============================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: Tahoma, "Segoe UI", sans-serif;
+            background-color: #f7f2ec;
+            color: #222;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        :root {
+            --primary: #0e7490;
+            --primary-light: #22b8cf;
+            --bg-card: #ffffff;
+            --text-muted: #666;
+            --radius: 10px;
+        }
+
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* ============================================
+           2) هدر
+           ============================================ */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid #eee;
+        }
+
+        .head_home {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 16px;
+        }
+
+        .logo { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        .list_head { display: flex; gap: 8px; }
+
+        .list_head a {
+            text-decoration: none;
+            color: #222;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: background-color .2s, color .2s;
+        }
+
+        .list_head a:hover { background-color: var(--primary-light); color: #fff; }
+        .list_head a.active { background-color: var(--primary); color: #fff; }
+
+        /* ============================================
+           3) محفظه اصلی (وسط‌چین عمودی)
+           ============================================ */
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+        }
+
+        .auth-card h1 {
+            font-size: 1.25rem;
+            color: #0b3b4a;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .auth-card .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: .88rem;
+            margin-bottom: 24px;
+        }
+
+        .step { display: none; }
+        .step:target { display: block; }
+
+        /* ============================================
+           5) فیلدهای فرم
+           ============================================ */
+        .field { margin-bottom: 16px; }
+
+        .field label {
+            display: block;
+            font-size: .9rem;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d5dbe0;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: #fafbfc;
+            transition: border-color .2s, background-color .2s;
+        }
+
+        .field input:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            outline: none;
+        }
+
+        /* بهینه: ورودی شماره موبایل کمی بزرگ‌تر برای تاچ راحت‌تر */
+        .field input[type="tel"] {
+            letter-spacing: 1px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        /* ============================================
+           6) باکس‌های کد تأیید (OTP)
+           ============================================ */
+        .otp-inputs {
+            display: flex;
+            gap: 8px;
+            /* جهت چپ‌به‌راست تا ارقام از چپ پر شوند (مثل دیجی‌کالا) */
+            direction: ltr;
+            justify-content: center;
+        }
+
+        .otp-inputs input {
+            width: 100%;
+            max-width: 48px;
+            height: 52px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: 1px solid #d5dbe0;
+            border-radius: var(--radius);
+            background-color: #fafbfc;
+            font-family: inherit;
+        }
+
+        .otp-inputs input:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            outline: none;
+        }
+
+        /* ============================================
+           7) دکمه‌ها
+           ============================================ */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none; /* چون دکمه را با <a> می‌سازیم */
+            transition: background-color .2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover { background-color: var(--primary-light); }
+
+        /* فاصله بالای دکمه در مرحله OTP */
+        .otp-step .btn { margin-top: 18px; }
+
+        /* ============================================
+           8) متن‌های پایین فرم
+           ============================================ */
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: .83rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .auth-footer a:hover { text-decoration: underline; }
+
+        /* ============================================
+           9) ریسپانسیو
+           ============================================ */
+        @media (max-width: 600px) {
+            .head_home { flex-direction: column; gap: 10px; padding: 12px; }
+            .auth-card { padding: 24px 20px; }
+            .otp-inputs { gap: 6px; }
+            .otp-inputs input { height: 46px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== هدر ====== -->
+    <header>
+        <nav class="head_home">
+            <span class="logo">🛍️ فروشگاه من</span>
+            <div class="list_head">
+                <a href="/">خانه</a>
+                <a href="/products">محصولات</a>
+                <a href="/register" class="active">ورود | ثبت‌نام</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ====== محفظه فرم ====== -->
+    <main class="auth-wrapper">
+
+        <!--
+          ────────────────────────────────────────────
+          مرحله ۱: گرفتن شماره موبایل
+          ────────────────────────────────────────────
+        -->
+        <section class="auth-card step phone-step" id="step1">
+            <h1>ورود | ثبت‌نام</h1>
+            <p class="subtitle">لطفاً شماره موبایل خود را وارد کنید</p>
+
+            <form action="" method="post">
+                <div class="field">
+                    <label for="phone">شماره موبایل</label>
+                    <input type="tel" id="phone" name="phone"
+                           placeholder="09123456789"
+                           pattern="09[0-9]{9}"
+                           maxlength="11"
+                           inputmode="numeric"
+                           autocomplete="tel"
+                           required>
+                </div>
+                <a href="#step2" class="btn btn-primary">دریافت کد</a>
+            </form>
+
+            <p class="auth-footer">
+                ورود شما به معنای پذیرش
+                <a href="#">قوانین</a> و <a href="#">حریم خصوصی</a> است
+            </p>
+        </section>
+
+        <!--
+           وارد کردن کد تأیید
+        -->
+        <section class="auth-card step otp-step" id="step2">
+            <h1>کد تأیید را وارد کنید</h1>
+            <p class="subtitle">کد ۵ رقمی به شماره شما پیامک شد</p>
+
+            <form action="/" method="post">
+                <div class="otp-inputs">
+                    <label>
+                        <input type="text" name="d1" maxlength="1" inputmode="numeric" autocomplete="one-time-code">
+                    </label>
+                    <label>
+                        <input type="text" name="d2" maxlength="1" inputmode="numeric">
+                    </label>
+                    <label>
+                        <input type="text" name="d3" maxlength="1" inputmode="numeric">
+                    </label>
+                    <label>
+                        <input type="text" name="d4" maxlength="1" inputmode="numeric">
+                    </label>
+                    <label>
+                        <input type="text" name="d5" maxlength="1" inputmode="numeric">
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">ورود</button>
+            </form>
+
+            <p class="auth-footer">
+                <a href="#step1">ویرایش شماره موبایل</a>
+            </p>
+        </section>
+
+    </main>
+
+</body>
+</html>
