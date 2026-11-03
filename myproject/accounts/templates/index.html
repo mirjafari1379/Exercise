@@ -248,7 +248,13 @@
             <a href="/">خانه</a>
             <!-- کلاس active مشخص می‌کند کاربر در این صفحه است -->
             <a href="/products" class="active">محصولات</a>
+            {% if user %}
+            {{ user }}
+            your id is {{ user.id }}
+            {% else %}
             <a href="/register">ثبت‌نام</a>
+            {% endif %}
+
         </div>
     </nav>
 </header>
