@@ -1,6 +1,6 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate , logout
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 # Create your views here.
@@ -15,10 +15,8 @@ def home(request):
 def products(request):
     return render(request, 'products.html')
 
-
 def register(request):
     return render(request, 'register.html')
-
 
 def user_register(request):
     if request.method == 'POST':
@@ -43,3 +41,8 @@ def user_register(request):
         return render(request, 'home.html')
 
     return render(request, 'signup.html')
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'User logged out')
+    return redirect('accounts:home')
