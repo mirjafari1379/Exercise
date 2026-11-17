@@ -38,9 +38,25 @@ def user_register(request):
         user.save()
         login(request, user)
         messages.success(request, 'User created successfully')
-        return render(request, 'home.html')
+        return render(request, 'index.html')
 
     return render(request, 'signup.html')
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'با موفقیت وارد شدید')
+            return redirect('/')
+
+        messages.error(request, 'نام کاربری یا رمز عبور اشتباه است')
+        return render(request, 'register.html')
+
+    return render(request, 'register.html')
 
 def user_logout(request):
     logout(request)

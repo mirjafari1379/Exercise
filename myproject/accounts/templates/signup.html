@@ -1,34 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ثبت نام</title>
-    {% if message %}
-    <ul class="message">
-        {% for message in message %}
-        <li
-        {% if message.tage %} class="{{ message.tag }}" {% endif %}>
-            {{ message }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Tahoma, sans-serif;
+            background: #f7f2ec;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 6px 20px rgba(0,0,0,.08);
+        }
+        h1 { font-size: 1.25rem; color: #0b3b4a; text-align: center; margin-bottom: 6px; }
+        .subtitle { text-align: center; color: #666; font-size: .88rem; margin-bottom: 20px; }
+        .message { list-style: none; margin-bottom: 14px; padding: 0; }
+        .message li {
+            padding: 10px; border-radius: 8px;
+            font-size: .85rem; text-align: center; margin-bottom: 6px;
+        }
+        .message li.error   { background: #fee2e2; color: #991b1b; }
+        .message li.success { background: #d1fae5; color: #065f46; }
+        label { display: block; margin-bottom: 14px; }
+        label span { display: block; font-size: .9rem; color: #333; margin-bottom: 6px; }
+        input {
+            width: 100%; padding: 10px 14px;
+            border: 1px solid #d5dbe0; border-radius: 8px;
+            font-family: inherit; font-size: 1rem; background: #fafbfc;
+        }
+        input:focus { border-color: #0e7490; background: #fff; outline: none; }
+        .btn {
+            width: 100%; padding: 11px; border: none; border-radius: 8px;
+            background: #0e7490; color: #fff; font-family: inherit;
+            font-size: 1rem; cursor: pointer; margin-top: 6px;
+        }
+        .btn:hover { background: #22b8cf; }
+        .link { text-align: center; margin-top: 16px; font-size: .88rem; color: #666; }
+        .link a { color: #0e7490; text-decoration: none; font-weight: bold; }
+        .link a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
 
-<form method="post" action="{% url 'account:signup' %}">
-    {% csrf_token %}
-    <label>
-        <input type="text" name="username" placeholder="نام خود را وارد کنید ">
-    </label>
-    <label>
-        <input type="password" name="pass1" placeholder="رمز عبور">
-    </label>
-    <label>
-        <input type="password" name="pass2" placeholder="تکرار رمز عبور">
-    </label>
-    <button type="submit">ارسال فرم</button>
-</form>
+<div class="card">
+    <h1>ثبت‌نام</h1>
+    <p class="subtitle">حساب کاربری جدید بسازید</p>
+
+    {% if messages %}
+        <ul class="message">
+            {% for msg in messages %}
+                <li class="{{ msg.tags }}">{{ msg }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="/signup/">
+        {% csrf_token %}
+
+        <label>
+            <span>نام کاربری</span>
+            <input type="text" name="username" placeholder="نام کاربری" required autofocus>
+        </label>
+
+        <label>
+            <span>رمز عبور</span>
+            <input type="password" name="pass1" placeholder="رمز عبور" required>
+        </label>
+
+        <label>
+            <span>تکرار رمز عبور</span>
+            <input type="password" name="pass2" placeholder="تکرار رمز عبور" required>
+        </label>
+
+        <button type="submit" class="btn">ثبت‌نام</button>
+    </form>
+
+    <p class="link">
+        حساب دارید؟ <a href="/">وارد شوید</a>
+    </p>
+</div>
 
 </body>
 </html>
