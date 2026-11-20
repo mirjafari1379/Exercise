@@ -246,9 +246,16 @@
         <span class="logo">🛍️ فروشگاه من</span>
         <div class="list_head">
             <a href="/">خانه</a>
+            <a href="{% url 'blog:addpost' %}">blog</a>
             <!-- کلاس active مشخص می‌کند کاربر در این صفحه است -->
             <a href="/products" class="active">محصولات</a>
+            {% if user %}
+            {{ user }}
+            your id is {{ user.id }}
+            {% else %}
             <a href="/register">ثبت‌نام</a>
+            {% endif %}
+
         </div>
     </nav>
 </header>

@@ -1,12 +1,17 @@
 from django.contrib import admin
 
-from accounts.models import UserProfile
-
+from .models import Post
 
 # Register your models here.
 
 
-@admin.register(UserProfile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('email', 'name', 'l_name')
-    search_fields = ('email', 'name', 'l_name')
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author')
+    search_fields = ('title', 'author')
+    readonly_fields = ('author',)
+
+
+
+
+
+admin.site.register(Post, PostAdmin)
